@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Entities;
+using Domain.Entities;
 
 namespace Persistence.Data;
 
 public partial class CampuxContext : DbContext
 {
-    public CampuxContext()
-    {
-    }
-
     public CampuxContext(DbContextOptions<CampuxContext> options)
         : base(options)
     {
@@ -27,10 +23,9 @@ public partial class CampuxContext : DbContext
     public virtual DbSet<State> States { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=localhost;user=root;password=123456;database=newprojectfourlayers", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.34-mysql"));
-/* #warning To protect potentially sensitive information in your connection string, you should move it out of source code. 
-You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. 
-For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263. */
+    {
+        optionsBuilder.UseMySql("server=localhost;user=root;password=123456;database=newprojectfourlayers", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.34-mysql"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

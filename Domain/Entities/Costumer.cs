@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace Domain.Entities;
 
-public partial class Costumer
+public partial class Costumer : BaseEntity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; } = null!;
 
     public string IdCustomer { get; set; } = null!;
@@ -18,6 +16,5 @@ public partial class Costumer
     public int IdCityFk { get; set; }
 
     public virtual City IdCityFkNavigation { get; set; } = null!;
-
-    public virtual Persontype IdPersonTypeFkNavigation { get; set; } = null!;
+    public virtual PersonType IdPersonTypeFkNavigation { get; set; } = null!;
 }

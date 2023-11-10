@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class CityDto
+    public class CityDto : BaseDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
-
         public int IdStateFk { get; set; }
     }
 }

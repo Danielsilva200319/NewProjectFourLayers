@@ -12,9 +12,6 @@ namespace Domain.Interfaces
         ICountry Countries { get; }
         IPersonType PersonTypes { get; }
         IState States { get; }
-        IUser Users { get; }
-        IRol Rols { get; }
-        IRefreshToken RefreshTokens { get; }
         Task<int> SaveAsync();
     }
 }

@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Entities;
 
-namespace Domain.Interfaces
+namespace API.Dtos
 {
-    public interface IRol : IGenericRepository<Rol>
+    public class BaseDto
     {
-        
+        public int Id { get; set; }
     }
 }

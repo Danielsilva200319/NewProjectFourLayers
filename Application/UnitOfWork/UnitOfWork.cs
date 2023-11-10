@@ -17,9 +17,6 @@ namespace Application.UnitOfWork
         private CountryRepository _countries;
         private PersonTypeRepository _personTypes;
         private StateRepository _states;
-        private IRefreshToken _refreshTokens;
-        private IRol _rols;
-        private IUser _users;
 
         public UnitOfWork(CampuxContext context)
         {
@@ -83,41 +80,6 @@ namespace Application.UnitOfWork
                     _states = new StateRepository(_context);
                 }
                 return _states;
-            }
-        }
-        public IRefreshToken RefreshTokens
-        {
-            get
-            {
-                if (_refreshTokens == null)
-                {
-                    _refreshTokens = new RefreshTokenRepository(_context); 
-                }
-                return _refreshTokens;
-            }
-        }
-
-        public IRol Rols
-        {
-            get
-            {
-                if (_rols == null)
-                {
-                    _rols = new RolRepository(_context); 
-                }
-                return _rols;
-            }
-        }
-
-        public IUser Users
-        {
-            get
-            {
-                if (_users == null)
-                {
-                    _users = new UserRepository(_context); 
-                }
-                return _users;
             }
         }
 

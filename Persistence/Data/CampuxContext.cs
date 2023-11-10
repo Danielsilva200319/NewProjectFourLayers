@@ -22,9 +22,6 @@ public partial class CampuxContext : DbContext
     public virtual DbSet<PersonType> Persontypes { get; set; }
 
     public virtual DbSet<State> States { get; set; }
-    public DbSet<Rol> Rols { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<UserRol> UserRoles { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class StateDto
+    public class StateDto : BaseDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-
         public int IdcountryFk { get; set; }
     }
 }

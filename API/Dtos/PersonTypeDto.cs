@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class PersonTypeDto
+    public class PersonTypeDto : BaseDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }

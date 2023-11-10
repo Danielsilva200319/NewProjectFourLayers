@@ -1,4 +1,4 @@
-/* using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,4 +42,4 @@ public class Pager<T> where T : class
         get { return (PageIndex < TotalPages); }
         set { this.HasNextPage = value; }
     }
-} */
+}

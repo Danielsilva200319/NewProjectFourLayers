@@ -44,7 +44,7 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<City>> Post(CityDto cityDto)
+        public async Task<ActionResult<CityDto>> Post(CityDto cityDto)
         {
             var cities = _mapper.Map<City>(cityDto);
             _unitOfWork.Cities.Add(cities);
@@ -62,12 +62,11 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CityDto>> Put(int id, [FromBody] CityDto cityDto)
         {
-            if (cityDto == null)
+            if (cityDto.Id == 0)
             {
-                return NotFound();
+                cityDto.Id = id;
             }
-            var cities = await _unitOfWork.Cities.GetByIdAsync(id);
-            if (cities == null)
+            if (cityDto.Id != id)
             {
                 return NotFound();
             }

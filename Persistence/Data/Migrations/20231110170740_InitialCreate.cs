@@ -16,149 +16,151 @@ namespace Persistence.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Countries",
+                name: "country",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
+                    table.PrimaryKey("PRIMARY", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Persontypes",
+                name: "persontype",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persontypes", x => x.Id);
+                    table.PrimaryKey("PRIMARY", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "States",
+                name: "state",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdcountryFk = table.Column<int>(type: "int", nullable: false),
-                    IdcountryFkNavigationId = table.Column<int>(type: "int", nullable: true)
+                    IdcountryFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_States", x => x.Id);
+                    table.PrimaryKey("PRIMARY", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_States_Countries_IdcountryFkNavigationId",
-                        column: x => x.IdcountryFkNavigationId,
-                        principalTable: "Countries",
+                        name: "FK_state_country_IdcountryFk",
+                        column: x => x.IdcountryFk,
+                        principalTable: "country",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Cities",
+                name: "city",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdStateFk = table.Column<int>(type: "int", nullable: false),
-                    IdStateFkNavigationId = table.Column<int>(type: "int", nullable: true)
+                    IdStateFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.PrimaryKey("PRIMARY", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cities_States_IdStateFkNavigationId",
-                        column: x => x.IdStateFkNavigationId,
-                        principalTable: "States",
+                        name: "FK_City_State_IdstateFk",
+                        column: x => x.IdStateFk,
+                        principalTable: "state",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Costumers",
+                name: "costumer",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdCustomer = table.Column<string>(type: "longtext", nullable: true)
+                    IdCustomer = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdPersonTypeFk = table.Column<int>(type: "int", nullable: false),
-                    DateRegister = table.Column<DateOnly>(type: "date", nullable: false),
-                    IdCityFk = table.Column<int>(type: "int", nullable: false),
-                    IdCityFkNavigationId = table.Column<int>(type: "int", nullable: true),
-                    IdPersonTypeFkNavigationId = table.Column<int>(type: "int", nullable: true)
+                    date_register = table.Column<DateOnly>(type: "date", nullable: false),
+                    IdCityFk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Costumers", x => x.Id);
+                    table.PrimaryKey("PRIMARY", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Costumers_Cities_IdCityFkNavigationId",
-                        column: x => x.IdCityFkNavigationId,
-                        principalTable: "Cities",
+                        name: "FK_customer_PersonType_IdPersonTypeFk",
+                        column: x => x.IdPersonTypeFk,
+                        principalTable: "persontype",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Costumers_Persontypes_IdPersonTypeFkNavigationId",
-                        column: x => x.IdPersonTypeFkNavigationId,
-                        principalTable: "Persontypes",
+                        name: "FK_customer_city_IdcityFk",
+                        column: x => x.IdCityFk,
+                        principalTable: "city",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_IdStateFkNavigationId",
-                table: "Cities",
-                column: "IdStateFkNavigationId");
+                name: "IX_City_IdstateFk",
+                table: "city",
+                column: "IdStateFk");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Costumers_IdCityFkNavigationId",
-                table: "Costumers",
-                column: "IdCityFkNavigationId");
+                name: "IX_customer_IdcityFk",
+                table: "costumer",
+                column: "IdCityFk");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Costumers_IdPersonTypeFkNavigationId",
-                table: "Costumers",
-                column: "IdPersonTypeFkNavigationId");
+                name: "IX_Customer_IdCustomer",
+                table: "costumer",
+                column: "IdCustomer",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_States_IdcountryFkNavigationId",
-                table: "States",
-                column: "IdcountryFkNavigationId");
+                name: "IX_customer_IdPersonTypeFk",
+                table: "costumer",
+                column: "IdPersonTypeFk");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_state_IdcountryFk",
+                table: "state",
+                column: "IdcountryFk");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Costumers");
+                name: "costumer");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "persontype");
 
             migrationBuilder.DropTable(
-                name: "Persontypes");
+                name: "city");
 
             migrationBuilder.DropTable(
-                name: "States");
+                name: "state");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "country");
         }
     }
 }

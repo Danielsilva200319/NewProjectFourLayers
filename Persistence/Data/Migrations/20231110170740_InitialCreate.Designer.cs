@@ -11,7 +11,7 @@ using Persistence.Data;
 namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(CampuxContext))]
-    [Migration("20231109155224_InitialCreate")]
+    [Migration("20231110170740_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,17 +31,17 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("IdStateFk")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdStateFkNavigationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
 
-                    b.HasIndex("IdStateFkNavigationId");
+                    b.HasIndex(new[] { "IdStateFk" }, "IX_City_IdstateFk");
 
-                    b.ToTable("Cities");
+                    b.ToTable("city", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Costumer", b =>
@@ -51,33 +51,34 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("DateRegister")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasColumnName("date_register");
 
                     b.Property<int>("IdCityFk")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdCityFkNavigationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("IdCustomer")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("IdPersonTypeFk")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdPersonTypeFkNavigationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
 
-                    b.HasIndex("IdCityFkNavigationId");
+                    b.HasIndex(new[] { "IdCustomer" }, "IX_Customer_IdCustomer")
+                        .IsUnique();
 
-                    b.HasIndex("IdPersonTypeFkNavigationId");
+                    b.HasIndex(new[] { "IdPersonTypeFk" }, "IX_customer_IdPersonTypeFk");
 
-                    b.ToTable("Costumers");
+                    b.HasIndex(new[] { "IdCityFk" }, "IX_customer_IdcityFk");
+
+                    b.ToTable("costumer", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Country", b =>
@@ -87,25 +88,31 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
 
-                    b.ToTable("Countries");
+                    b.ToTable("country", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.Persontype", b =>
+            modelBuilder.Entity("Domain.Entities.PersonType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
 
-                    b.ToTable("Persontypes");
+                    b.ToTable("persontype", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.State", b =>
@@ -117,24 +124,26 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("IdcountryFk")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdcountryFkNavigationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
 
-                    b.HasIndex("IdcountryFkNavigationId");
+                    b.HasIndex(new[] { "IdcountryFk" }, "IX_state_IdcountryFk");
 
-                    b.ToTable("States");
+                    b.ToTable("state", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.City", b =>
                 {
                     b.HasOne("Domain.Entities.State", "IdStateFkNavigation")
                         .WithMany("Cities")
-                        .HasForeignKey("IdStateFkNavigationId");
+                        .HasForeignKey("IdStateFk")
+                        .IsRequired()
+                        .HasConstraintName("FK_City_State_IdstateFk");
 
                     b.Navigation("IdStateFkNavigation");
                 });
@@ -143,11 +152,15 @@ namespace Persistence.Data.Migrations
                 {
                     b.HasOne("Domain.Entities.City", "IdCityFkNavigation")
                         .WithMany("Costumers")
-                        .HasForeignKey("IdCityFkNavigationId");
+                        .HasForeignKey("IdCityFk")
+                        .IsRequired()
+                        .HasConstraintName("FK_customer_city_IdcityFk");
 
-                    b.HasOne("Domain.Entities.Persontype", "IdPersonTypeFkNavigation")
+                    b.HasOne("Domain.Entities.PersonType", "IdPersonTypeFkNavigation")
                         .WithMany("Costumers")
-                        .HasForeignKey("IdPersonTypeFkNavigationId");
+                        .HasForeignKey("IdPersonTypeFk")
+                        .IsRequired()
+                        .HasConstraintName("FK_customer_PersonType_IdPersonTypeFk");
 
                     b.Navigation("IdCityFkNavigation");
 
@@ -158,7 +171,8 @@ namespace Persistence.Data.Migrations
                 {
                     b.HasOne("Domain.Entities.Country", "IdcountryFkNavigation")
                         .WithMany("States")
-                        .HasForeignKey("IdcountryFkNavigationId");
+                        .HasForeignKey("IdcountryFk")
+                        .IsRequired();
 
                     b.Navigation("IdcountryFkNavigation");
                 });
@@ -173,7 +187,7 @@ namespace Persistence.Data.Migrations
                     b.Navigation("States");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Persontype", b =>
+            modelBuilder.Entity("Domain.Entities.PersonType", b =>
                 {
                     b.Navigation("Costumers");
                 });

@@ -10,11 +10,8 @@ namespace Application.Repositories
 {
     public class CityRepository : GenericRepository<City>, ICity
     {
-        private readonly CampuxContext _context;
-
         public CityRepository(CampuxContext context) : base(context)
         {
-            _context = context;
         }
     }
 }

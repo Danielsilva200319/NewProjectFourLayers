@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using System.Reflection;
 
 namespace Persistence.Data;
 
@@ -26,7 +27,7 @@ public partial class CampuxContext : DbContext
     public DbSet<UserRol> UserRoles { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class CityController : ApiBaseController
+    public class CountryController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CityController(IUnitOfWork unitOfWork, IMapper mapper)
+        public CountryController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -23,70 +23,70 @@ namespace API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<CityDto>>> Get()
+        public async Task<ActionResult<IEnumerable<CountryDto>>> Get()
         {
-            var cities = await _unitOfWork.Cities.GetAllAsync();
-            return _mapper.Map<List<CityDto>>(cities);
+            var countries = await _unitOfWork.Countries.GetAllAsync();
+            return _mapper.Map<List<CountryDto>>(countries);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CityDto>> Get(int id)
+        public async Task<ActionResult<CountryDto>> Get(int id)
         {
-            var city = await _unitOfWork.Cities.GetByIdAsync(id);
-            if (city == null)
+            var country = await _unitOfWork.Countries.GetByIdAsync(id);
+            if (country == null)
             {
                 return NotFound();
             }
-            return _mapper.Map<CityDto>(city);
+            return _mapper.Map<CountryDto>(country);
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<City>> Post(CityDto cityDto)
+        public async Task<ActionResult<Country>> Post(CountryDto countryDto)
         {
-            var cities = _mapper.Map<City>(cityDto);
-            _unitOfWork.Cities.Add(cities);
+            var countries = _mapper.Map<Country>(countryDto);
+            _unitOfWork.Countries.Add(countries);
             await _unitOfWork.SaveAsync();
-            if (cities == null)
+            if (countries == null)
             {
                 return BadRequest();
             }
-            cityDto.Id = cities.Id;
-            return CreatedAtAction(nameof(Post), new { id = cityDto.Id }, cityDto);
+            countryDto.Id = countries.Id;
+            return CreatedAtAction(nameof(Post), new { id = countryDto.Id }, countryDto);
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CityDto>> Put(int id, [FromBody] CityDto cityDto)
+        public async Task<ActionResult<CountryDto>> Put(int id, [FromBody] CountryDto countryDto)
         {
-            if (cityDto.Id == 0)
+            if (countryDto.Id == 0)
             {
-                cityDto.Id = id;
+                countryDto.Id = id;
             }
-            if (cityDto.Id != id)
+            if (countryDto.Id != id)
             {
                 return NotFound();
             }
-            var city = _mapper.Map<City>(cityDto);
-            cityDto.Id = city.Id;
-            _unitOfWork.Cities.Update(city);
+            var country = _mapper.Map<Country>(countryDto);
+            countryDto.Id = country.Id;
+            _unitOfWork.Countries.Update(country);
             await _unitOfWork.SaveAsync();
-            return cityDto;
+            return countryDto;
         }
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var cities = await _unitOfWork.Cities.GetByIdAsync(id);
-            if (cities == null)
+            var countries = await _unitOfWork.Countries.GetByIdAsync(id);
+            if (countries == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Cities.Remove(cities);
+            _unitOfWork.Countries.Remove(countries);
             await _unitOfWork.SaveAsync();
             return NoContent();
         }

@@ -11,7 +11,6 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<City, CityDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
     }
 }

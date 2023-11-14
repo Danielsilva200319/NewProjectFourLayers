@@ -11,6 +11,10 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
+        CreateMap<City, CityDto>().ReverseMap();
+        CreateMap<State,StateListCityDto>().ReverseMap();
+        CreateMap<State, StateDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
+        CreateMap<Costumer, CostumerDto>().ReverseMap();
     }
 }

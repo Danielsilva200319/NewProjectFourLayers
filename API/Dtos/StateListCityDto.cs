@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class StateDto : BaseDto
+    public class StateListCityDto
     {
-        public string Name { get; set; }
+        public string Name { get;set;}
+        public List<CityDto> Cities { get;set;}
     }
 }

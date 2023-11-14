@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class CostumerDto : BaseDto
+    public class CostumerDto
     {
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
 
         public string IdCustomer { get; set; } = null!;
 
         public int IdPersonTypeFk { get; set; }
-
-        public DateOnly DateRegister { get; set; }
 
         public int IdCityFk { get; set; }
     }
